@@ -16,3 +16,13 @@ build:
         manual:
           - src: "src/**/*.ts"
             dest: .
+    - image: alimirmohammad/client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "**/*.tsx"
+            dest: .
+          - src: "**/*.ts"
+            dest: .
