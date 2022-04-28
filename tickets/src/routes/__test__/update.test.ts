@@ -3,6 +3,7 @@ import { Types } from "mongoose";
 
 import { app } from "../../app";
 import { natsWrapper } from "../../nats-wrapper";
+import { Ticket } from "../../models/ticket";
 
 it("returns a 404 if the provided id does not exist", async function () {
   const id = new Types.ObjectId().toHexString();
@@ -98,4 +99,26 @@ it("publishes an event after updating the ticket", async function () {
     .expect(200);
 
   expect(natsWrapper.client.publish).toHaveBeenCalled();
+});
+
+it("rejects updates if the ticket is reserved", async function () {
+  const cookie = global.signin();
+
+  const response = await request(app)
+    .post("/api/tickets")
+    .set("Cookie", cookie)
+    .send({ title: "fghfg", price: 20 });
+
+  const ticket = await Ticket.findById(response.body.id);
+  ticket!.set({ orderId: new Types.ObjectId().toHexString() });
+  await ticket!.save();
+
+  const newTitle = "hjkhjk";
+  const newPrice = 300;
+
+  await request(app)
+    .put(`/api/tickets/${response.body.id}`)
+    .set("Cookie", cookie)
+    .send({ title: newTitle, price: newPrice })
+    .expect(400);
 });

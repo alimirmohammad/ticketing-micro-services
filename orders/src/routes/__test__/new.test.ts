@@ -17,6 +17,7 @@ it("returns an error if the ticket does not exist", async function () {
 
 it("returns an error if the ticket is already reserved", async function () {
   const ticket = Ticket.build({
+    id: new Types.ObjectId().toHexString(),
     title: "concert",
     price: 20,
   });
@@ -38,6 +39,7 @@ it("returns an error if the ticket is already reserved", async function () {
 
 it("reserves a ticket", async function () {
   const ticket = Ticket.build({
+    id: new Types.ObjectId().toHexString(),
     title: "concert",
     price: 20,
   });
@@ -52,6 +54,7 @@ it("reserves a ticket", async function () {
 
 it("emits an order created event", async function () {
   const ticket = Ticket.build({
+    id: new Types.ObjectId().toHexString(),
     title: "concert",
     price: 20,
   });

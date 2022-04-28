@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import {
+  BadRequestError,
   NotAuthorizedError,
   NotFoundError,
   requireAuth,
@@ -32,6 +33,10 @@ router.put(
       throw new NotAuthorizedError();
     }
 
+    if (ticket.orderId) {
+      throw new BadRequestError("Cannot update a reserved ticket");
+    }
+
     ticket.set({ title: req.body.title, price: req.body.price });
     await ticket.save();
 
@@ -40,6 +45,7 @@ router.put(
       title: ticket.title,
       price: ticket.price,
       userId: ticket.userId,
+      version: ticket.version,
     });
 
     res.send(ticket);

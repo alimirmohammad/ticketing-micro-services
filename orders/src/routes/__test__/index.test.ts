@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import request from "supertest";
 
 import { app } from "../../app";
@@ -5,6 +6,7 @@ import { Ticket } from "../../models/ticket";
 
 async function buildTicket() {
   const ticket = Ticket.build({
+    id: new Types.ObjectId().toHexString(),
     title: "concert",
     price: 20,
   });

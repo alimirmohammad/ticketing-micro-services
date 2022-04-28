@@ -1,9 +1,11 @@
+import { Types } from "mongoose";
 import request from "supertest";
 import { app } from "../../app";
 import { Ticket } from "../../models/ticket";
 
 it("returns an error if the user does not own the order", async function () {
   const ticket = Ticket.build({
+    id: new Types.ObjectId().toHexString(),
     title: "concert",
     price: 20,
   });
@@ -26,6 +28,7 @@ it("returns an error if the user does not own the order", async function () {
 
 it("fetches the order", async function () {
   const ticket = Ticket.build({
+    id: new Types.ObjectId().toHexString(),
     title: "concert",
     price: 20,
   });

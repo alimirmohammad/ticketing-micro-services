@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import request from "supertest";
 
 import { app } from "../../app";
@@ -7,6 +8,7 @@ import { natsWrapper } from "../../nats-wrapper";
 
 it("cancels the order", async function () {
   const ticket = Ticket.build({
+    id: new Types.ObjectId().toHexString(),
     title: "concert",
     price: 20,
   });
@@ -33,6 +35,7 @@ it("cancels the order", async function () {
 
 it("emits an order cancelled event", async function () {
   const ticket = Ticket.build({
+    id: new Types.ObjectId().toHexString(),
     title: "concert",
     price: 20,
   });
