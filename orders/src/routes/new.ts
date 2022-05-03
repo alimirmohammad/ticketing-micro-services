@@ -13,7 +13,7 @@ import { Order, OrderStatus } from "../models/order";
 import { OrderCreatedPublisher } from "../events/publishers/order-created-publisher";
 import { natsWrapper } from "../nats-wrapper";
 
-const EXPIRATION_WINDOW_MINUTES = 15;
+const EXPIRATION_WINDOW_MINUTES = 1;
 
 const router = Router();
 
