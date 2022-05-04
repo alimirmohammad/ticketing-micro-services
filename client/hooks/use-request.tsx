@@ -17,10 +17,10 @@ export default function useRequest<T = any>({
 }: UseRequestInput<T>) {
   const [error, setError] = useState<JSX.Element | null>(null);
 
-  async function doRequest() {
+  async function doRequest(bodyProps: Record<string, any> = {}) {
     try {
       setError(null);
-      const response = await axios[method](url, body);
+      const response = await axios[method](url, { ...body, ...bodyProps });
       const result = response.data as T;
       if (onSuccess) {
         onSuccess(result);
